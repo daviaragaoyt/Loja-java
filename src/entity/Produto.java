@@ -1,103 +1,100 @@
 package entity;
-import java.util.ArrayList;
-import java.util.List;
+
+import java.sql.SQLException;
 import java.util.Scanner;
 
+import DAO.ProdutoDAO;
+
 public class Produto {
-	
-	public int cod;
-	public float valor;
-	public String nome;
-	public String categoria;
-	public String tamanho;
-	public String cor;
-	public String marca;
-	public int quantidade;
-	
-	public Produto(int cod, float valor, String nome, String categoria, String tamanho, String cor, String marca, int quantidade){
-		this.cod = cod;
-		this.valor = valor; 
-		this.nome = nome;
-		this.categoria = categoria;
-		this.tamanho = tamanho;
-		this.cor = cor;
-		this.marca = marca;
-		this.quantidade = quantidade;
-	}
+    
+    private int cod;
+    private float valor;
+    private String nome;
+    private String categoria;
+    private String tamanho;
+    private String cor;
+    private String marca;
+    private int quantidade;
+    
+    public Produto(int cod, float valor, String nome, String categoria, String tamanho, String cor, String marca, int quantidade) {
+        this.cod = cod;
+        this.valor = valor;
+        this.nome = nome;
+        this.categoria = categoria;
+        this.tamanho = tamanho;
+        this.cor = cor;
+        this.marca = marca;
+        this.quantidade = quantidade;
+    }
 
-	public int getCod() {
-		return cod;
-	}
+    public int getCod() {
+        return cod;
+    }
 
-	public void setCod(int cod) {
-		this.cod = cod;
-	}
+    public void setCod(int cod) {
+        this.cod = cod;
+    }
 
-	public float getValor() {
-		return valor;
-	}
+    public float getValor() {
+        return valor;
+    }
 
-	public void setValor(float valor) {
-		this.valor = valor;
-	}
+    public void setValor(float valor) {
+        this.valor = valor;
+    }
 
-	public String getNome() {
-		return nome;
-	}
+    public String getNome() {
+        return nome;
+    }
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
-	public String getCategoria() {
-		return categoria;
-	}
+    public String getCategoria() {
+        return categoria;
+    }
 
-	public void setCategoria(String categoria) {
-		this.categoria = categoria;
-	}
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
 
-	public String getTamanho() {
-		return tamanho;
-	}
+    public String getTamanho() {
+        return tamanho;
+    }
 
-	public void setTamanho(String tamanho) {
-		this.tamanho = tamanho;
-	}
+    public void setTamanho(String tamanho) {
+        this.tamanho = tamanho;
+    }
 
-	public String getCor() {
-		return cor;
-	}
+    public String getCor() {
+        return cor;
+    }
 
-	public void setCor(String cor) {
-		this.cor = cor;
-	}
+    public void setCor(String cor) {
+        this.cor = cor;
+    }
 
-	public String getMarca() {
-		return marca;
-	}
+    public String getMarca() {
+        return marca;
+    }
 
-	public void setMarca(String marca) {
-		this.marca = marca;
-	}
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
 
-	public int getQuantidade() {
-		return quantidade;
-	}
+    public int getQuantidade() {
+        return quantidade;
+    }
 
-	public void setQuantidade(int quantidade) {
-		this.quantidade = quantidade;
-	}
-	
-	
-	//List<Produto> listaProdutos
-	//O "Scanner scan" como parâmetro faz com que não seja necessário a declaração do Scanner em cada método
-	
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
+    }
+    
 	public static void exibirMenu(Scanner scan) {
-        //Scanner scan = new Scanner(System.in);
-        List<Produto> listaProdutos = new ArrayList<>();
-        int  opcaoProduto;
-        
+        ProdutoDAO produtoDAO = new ProdutoDAO();
+        int opcaoProduto;
+
         do {
             System.out.println("------ Gerenciamento de Produtos ------");
             System.out.println("[1] - Cadastrar Produto");
@@ -106,142 +103,136 @@ public class Produto {
             System.out.println("[4] - Apagar Produto");
             System.out.println("[0] - Voltar ao Menu Principal");
             opcaoProduto = scan.nextInt();
+            scan.nextLine(); // Consome a nova linha
 
             switch (opcaoProduto) {
                 case 1:
-                    cadastrarProduto(scan, listaProdutos); //cadastrarProduto(scan, listaProdutos);
+                    cadastrarProduto(scan, produtoDAO);
                     break;
                 case 2:
-                    atualizarProduto(scan, listaProdutos);
+                    atualizarProduto(scan, produtoDAO);
                     break;
                 case 3:
-                    buscarProduto(scan, listaProdutos);
+                    buscarProduto(scan, produtoDAO);
                     break;
-                
                 case 4:
-                	apagarProduto(scan, listaProdutos);
-                   	break;
+                    apagarProduto(scan, produtoDAO);
+                    break;
                 case 0:
                     System.out.println("Voltando ao Menu Principal...");
-                    break; // Encerra o programa
+                    break;
                 default:
                     System.out.println("Opção Inválida!");
             }
         } while (opcaoProduto != 0);
-		//scan.close();
     }
-	
-	public static void cadastrarProduto(Scanner scan, List<Produto> listaProdutos) {
-		//Scanner scan = new Scanner (System.in);
-		
-		System.out.println("Código: ");
-		int cod = scan.nextInt();
-		scan.nextLine(); //quebra de linha
-		
-		System.out.println("Nome: ");
-		String nome = scan.nextLine();
-		
-		System.out.println("Categoria: ");
-		String categoria = scan.nextLine();
-		
-		System.out.println("Tamanho: ");
-		String tamanho = scan.nextLine();
-		
-		System.out.println("Marca: ");
-		String marca = scan.nextLine();
-		
-		System.out.println("Cor: ");
-		String cor = scan.nextLine();
-		
-		System.out.println("Valor: ");
-		float valor = scan.nextFloat();
-		
-		System.out.println("Quantidade: ");
-		int quantidade = scan.nextInt();
-		
-		Produto produto = new Produto (cod, valor, nome, categoria, tamanho, cor, marca, quantidade);
-		
-		listaProdutos.add(produto);
-		
-		System.out.println("PRODUTO CADASTRADO!");
-		//scan.close();
-	}
-	
-	public static void atualizarProduto(Scanner scan, List<Produto> listaProdutos) {
-		//Scanner scan = new Scanner(System.in);
 
-	    System.out.println("Digite o código do produto que deseja atualizar: ");
-	    int cod = scan.nextInt();
-	  
-	    for (Produto produto : listaProdutos) {
-	        if (produto.getCod() == cod) {
-	            System.out.println("Nome: ");
-	            @SuppressWarnings("unused")
-				String nome = scan.nextLine();
+    private static void cadastrarProduto(Scanner scan, ProdutoDAO produtoDAO) {
+        System.out.println("Digite o código do produto:");
+        int cod = scan.nextInt();
+        scan.nextLine();
+        System.out.println("Digite o valor do produto:");
+        float valor = scan.nextFloat();
+        scan.nextLine();
+        System.out.println("Digite o nome do produto:");
+        String nome = scan.nextLine();
+        System.out.println("Digite a categoria do produto:");
+        String categoria = scan.nextLine();
+        System.out.println("Digite o tamanho do produto:");
+        String tamanho = scan.nextLine();
+        System.out.println("Digite a cor do produto:");
+        String cor = scan.nextLine();
+        System.out.println("Digite a marca do produto:");
+        String marca = scan.nextLine();
+        System.out.println("Digite a quantidade do produto:");
+        int quantidade = scan.nextInt();
+        scan.nextLine();
 
-	            System.out.println("Categoria: ");
-				@SuppressWarnings("unused")
-	            String categoria = scan.nextLine();
+        Produto produto = new Produto(cod, valor, nome, categoria, tamanho, cor, marca, quantidade);
+        try {
+            produtoDAO.cadastrarProduto(produto);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
-	            System.out.println("Tamanho: ");
-				@SuppressWarnings("unused")
-	            String tamanho = scan.nextLine();
+    private static void atualizarProduto(Scanner scan, ProdutoDAO produtoDAO) {
+        System.out.println("Digite o código do produto que deseja atualizar:");
+        int cod = scan.nextInt();
+        scan.nextLine();
 
-	            System.out.println("Marca: ");
-				@SuppressWarnings("unused")
-	            String marca = scan.nextLine();
+        try {
+            Produto produto = produtoDAO.buscarProduto(cod);
+            if (produto != null) {
+                System.out.println("Digite o novo valor do produto:");
+                float valor = scan.nextFloat();
+                scan.nextLine();
+                System.out.println("Digite o novo nome do produto:");
+                String nome = scan.nextLine();
+                System.out.println("Digite a nova categoria do produto:");
+                String categoria = scan.nextLine();
+                System.out.println("Digite o novo tamanho do produto:");
+                String tamanho = scan.nextLine();
+                System.out.println("Digite a nova cor do produto:");
+                String cor = scan.nextLine();
+                System.out.println("Digite a nova marca do produto:");
+                String marca = scan.nextLine();
+                System.out.println("Digite a nova quantidade do produto:");
+                int quantidade = scan.nextInt();
+                scan.nextLine();
 
-	            System.out.println("Cor: ");
-				@SuppressWarnings("unused")
-	            String cor = scan.nextLine();
+                produto.setValor(valor);
+                produto.setNome(nome);
+                produto.setCategoria(categoria);
+                produto.setTamanho(tamanho);
+                produto.setCor(cor);
+                produto.setMarca(marca);
+                produto.setQuantidade(quantidade);
 
-	            System.out.println("Valor: ");
-				@SuppressWarnings("unused")
-	            float valor = scan.nextFloat();
-	          
+                produtoDAO.atualizarProduto(produto);
+            } else {
+                System.out.println("Produto não encontrado.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
-	            System.out.println("Quantidade: ");
-				@SuppressWarnings("unused")	
-	            int quantidade = scan.nextInt();
-	          
-	            
-	            System.out.println("Produto atualizado com sucesso!");
-	            return;
-	        }
-			scan.close();
-	    }
-	    System.out.println("Produto não encontrado com o código fornecido.");
-	}
-	
-	
-	public static void buscarProduto(Scanner scan, List<Produto> listaProdutos) {
-		//Scanner scan = new Scanner(System.in);
-		
-		System.out.println("------ Lista de Produtos ------");
-		for (Produto produto : listaProdutos) {
-			System.out.println(produto.getCod() + " - " + produto.getNome());
-			System.out.println("------ ------ ------ ------");
-		}
-		//scan.close();
-	}
-	
-	public static void apagarProduto(Scanner scan, List<Produto> listaProdutos) {
-		//Scanner scan = new Scanner(System.in);
+    private static void buscarProduto(Scanner scan, ProdutoDAO produtoDAO) {
+        System.out.println("Digite o código do produto que deseja buscar:");
+        int cod = scan.nextInt();
+        scan.nextLine();
 
-	    System.out.println("Digite o código do produto que deseja apagar: ");
-	    int cod = scan.nextInt();
-	  
+        try {
+            Produto produto = produtoDAO.buscarProduto(cod);
+            if (produto != null) {
+                System.out.println("Produto encontrado: ");
+                System.out.println("Código: " + produto.getCod());
+                System.out.println("Valor: " + produto.getValor());
+                System.out.println("Nome: " + produto.getNome());
+                System.out.println("Categoria: " + produto.getCategoria());
+                System.out.println("Tamanho: " + produto.getTamanho());
+                System.out.println("Cor: " + produto.getCor());
+                System.out.println("Marca: " + produto.getMarca());
+                System.out.println("Quantidade: " + produto.getQuantidade());
+            } else {
+                System.out.println("Produto não encontrado.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
-	    for (Produto produto : listaProdutos) {
-	        if (produto.getCod() == cod) {
-	            listaProdutos.remove(produto);
-	            System.out.println("Produto apagado com sucesso!");
-	            return;
-	        }
-			//scan.close();
-	    }
+    private static void apagarProduto(Scanner scan, ProdutoDAO produtoDAO) {
+        System.out.println("Digite o código do produto que deseja apagar:");
+        int cod = scan.nextInt();
+        scan.nextLine();
 
-	    System.out.println("Produto não encontrado com o código fornecido.");
-	}
-	
+        try {
+            produtoDAO.apagarProduto(cod);
+            System.out.println("Produto apagado com sucesso.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
