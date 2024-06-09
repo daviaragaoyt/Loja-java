@@ -1,79 +1,68 @@
-import java.util.ArrayList;
-import java.util.List;
+
+
+import DAO.FuncionarioDAO;
+import entity.Funcionario;
+
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
-import entity.Funcionario;
-import entity.Produto;
-
 public class Loja {
+    private static FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
+
+    public static void cadastrarFuncionario(Scanner scan) {
+        System.out.println("Nome: ");
+        String nome = scan.nextLine();
+
+        System.out.println("CPF: ");
+        int id = scan.nextInt();
+        scan.nextLine(); // quebra de linha
+
+        System.out.println("Data de Nascimento (dd/MM/yyyy): ");
+        LocalDate dtNascimento = LocalDate.parse(scan.nextLine(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+        System.out.println("Telefone: ");
+        String num_tel = scan.nextLine();
+
+        System.out.println("E-mail: ");
+        String email = scan.nextLine();
+
+        System.out.println("Data de Admissão (dd/MM/yyyy): ");
+        LocalDate dtAdmissao = LocalDate.parse(scan.nextLine(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+        Funcionario funcionario = new Funcionario(nome, dtNascimento, num_tel, email, id, dtAdmissao);
+        try {
+            funcionarioDAO.cadastrarFuncionario(funcionario);
+            System.out.println("FUNCIONÁRIO CADASTRADO!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Erro ao cadastrar funcionário.");
+        }
+    }
+
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
-        List<Funcionario> listaFuncionarios = new ArrayList<>();
-        @SuppressWarnings("unused")
-        List<Produto> listaProdutos = new ArrayList<>();
 
-        int opc;
-        do {
-            System.out.println("[1] - Iniciar Sistema");
-            System.out.println("[0] - Finalizar Sistema");
-            opc = scan.nextInt();
-            scan.nextLine(); // Consome a nova linha
+        while (true) {
+            System.out.println("\n------ Gerenciamento de Funcionários ------");
+            System.out.println("[1] - Cadastrar Funcionário");
+            System.out.println("[0] - SAIR");
 
-            switch (opc) {
-                case 0:
-                    System.out.println("Sistema Finalizado!");
-                    break;
+            int opcao = scan.nextInt();
+            scan.nextLine(); // quebra de linha
 
+            switch (opcao) {
                 case 1:
-                    int opcao2;
-                    do {
-                        System.out.println("\n---- MENU ----");
-                        System.out.println("[1] - Gerenciamento de Funcionários");
-                        System.out.println("[2] - Gerenciamento de Produtos");
-                        System.out.println("[3] - Realizar Vendas");
-                        System.out.println("[0] - SAIR");
-                        opcao2 = scan.nextInt();
-                        scan.nextLine(); // Consome a nova linha
-
-                        switch (opcao2) {
-                            case 0:
-                                System.out.println("Operação Finalizada!");
-                                break;
-
-                            case 1:
-                                Funcionario.exibirMenu();
-                                int opcaoFuncionario = scan.nextInt();
-                                scan.nextLine(); // Consome a nova linha
-                                switch (opcaoFuncionario) {
-                                    case 1:
-                                        Funcionario.cadastrarFuncionario(listaFuncionarios);
-                                        break;
-                                    // Adicione outros casos para atualizar, buscar e apagar funcionários
-                                    default:
-                                        System.out.println("Opção Inválida!");
-                                        break;
-                                }
-                                break;
-
-                            case 2:
-                                Produto.exibirMenu(scan);
-                                break;
-
-                            // case 3: Realizar vendas não implementado
-
-                            default:
-                                System.out.println("Opção Inválida!");
-                                System.out.println("---- Revise a Escolha ----");
-                                break;
-                        }
-                    } while (opcao2 != 0);
+                    cadastrarFuncionario(scan);
                     break;
-
+                case 0:
+                    System.out.println("Saindo...");
+                    scan.close();
+                    return;
                 default:
-                    System.out.println("Opção Inválida!");
-                    break;
+                    System.out.println("Opção inválida!");
             }
-        } while (opc != 0);
-        scan.close();
+        }
     }
 }

@@ -1,18 +1,19 @@
 package entity;
 
-public class Estoque extends Produto {
-    private boolean estadoProduto;
-    
-    public Estoque(int cod, float valor, String nome, String categoria, String tamanho, String cor, String marca, int quantidade, boolean estadoProduto) {
-        super(cod, valor, nome, categoria, tamanho, cor, marca, quantidade);
-        this.estadoProduto = estadoProduto;
+public class Estoque {
+    private int produtoId;
+    private int quantidade;
+
+    public Estoque(int produtoId, int quantidade) {
+        this.produtoId = produtoId;
+        this.quantidade = quantidade;
     }
 
-    public boolean isEstadoProduto() {
-        return estadoProduto;
+    public int getProdutoId() {
+        return produtoId;
     }
 
-    public void setEstadoProduto(boolean estadoProduto) {
-        this.estadoProduto = estadoProduto;
+    public int getQuantidade() {
+        return quantidade;
     }
 }
