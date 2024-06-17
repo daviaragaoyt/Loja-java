@@ -1,67 +1,38 @@
 
 
-import DAO.FuncionarioDAO;
-import entity.Funcionario;
-
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
+import entity.Funcionario;
+import entity.Produto;
 
 public class Loja {
-    private static FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
-
-    public static void cadastrarFuncionario(Scanner scan) {
-        System.out.println("Nome: ");
-        String nome = scan.nextLine();
-
-        System.out.println("CPF: ");
-        int id = scan.nextInt();
-        scan.nextLine(); // quebra de linha
-
-        System.out.println("Data de Nascimento (dd/MM/yyyy): ");
-        LocalDate dtNascimento = LocalDate.parse(scan.nextLine(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-
-        System.out.println("Telefone: ");
-        String num_tel = scan.nextLine();
-
-        System.out.println("E-mail: ");
-        String email = scan.nextLine();
-
-        System.out.println("Data de Admissão (dd/MM/yyyy): ");
-        LocalDate dtAdmissao = LocalDate.parse(scan.nextLine(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-
-        Funcionario funcionario = new Funcionario(nome, dtNascimento, num_tel, email, id, dtAdmissao);
-        try {
-            funcionarioDAO.cadastrarFuncionario(funcionario);
-            System.out.println("FUNCIONÁRIO CADASTRADO!");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Erro ao cadastrar funcionário.");
-        }
-    }
 
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
 
         while (true) {
-            System.out.println("\n------ Gerenciamento de Funcionários ------");
-            System.out.println("[1] - Cadastrar Funcionário");
-            System.out.println("[0] - SAIR");
+            System.out.println("\n------ Menu Principal ------");
+            System.out.println("[1] - Gerenciamento de Funcionários");
+            System.out.println("[2] - Gerenciamento de Produtos");
+            System.out.println("[0] - Sair");
 
             int opcao = scan.nextInt();
             scan.nextLine(); // quebra de linha
 
             switch (opcao) {
                 case 1:
-                    cadastrarFuncionario(scan);
+                    Funcionario.menuFuncionario(scan);
+                    break;
+                case 2:
+                    Produto.menuProduto(scan);
                     break;
                 case 0:
                     System.out.println("Saindo...");
                     scan.close();
-                    return;
+                    System.exit(0);
+                    break;
                 default:
                     System.out.println("Opção inválida!");
+                    break;
             }
         }
     }

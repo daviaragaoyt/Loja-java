@@ -12,19 +12,14 @@ public class Conexao {
     private static Connection conn;
 
     public static Connection getConexao() {
-
         try {
-            if (conn == null) {
+            if (conn == null || conn.isClosed()) {
                 conn = DriverManager.getConnection(url, user, password);
-                return conn;
-            } else {
-                return conn;
             }
+            return conn;
         } catch (SQLException e) {
-
             e.printStackTrace();
             return null;
         }
-
     }
 }
