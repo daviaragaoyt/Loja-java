@@ -1,33 +1,37 @@
 package entity;
 
-import java.time.LocalDate;
+import DAO.ProdutoDAO;
+import DAO.VendaDAO;
+import DAO.EstoqueDAO;
+import java.sql.SQLException;
 
 public class Venda {
-    private int id;
-    private int produtoId;
-    private int quantidade;
-    private LocalDate dataVenda;
+    private ProdutoDAO produtoDAO = new ProdutoDAO();
+    private EstoqueDAO estoqueDAO = new EstoqueDAO();
 
-    public Venda(int id, int produtoId, int quantidade, LocalDate dataVenda) {
-        this.id = id;
-        this.produtoId = produtoId;
-        this.quantidade = quantidade;
-        this.dataVenda = dataVenda;
-    }
+    public void realizarVenda(int codigoProduto, int quantidadeVendida) throws SQLException {
+        // Verifica se há estoque suficiente
+        Produto produto = produtoDAO.buscarProduto(codigoProduto);
+        if (produto == null) {
+            System.out.println("Produto não encontrado.");
+            return;
+        }
 
-    public int getId() {
-        return id;
-    }
+        if (produto.getQuantidade() < quantidadeVendida) {
+            System.out.println("Não há estoque suficiente para realizar esta venda.");
+            return;
+        }
 
-    public int getProdutoId() {
-        return produtoId;
-    }
+        // Registra a venda na tabela VENDA
+        float valorTotal = produto.getValor() * quantidadeVendida;
+        VendaDAO vendaDAO = new VendaDAO();
+        vendaDAO.registrarVenda(codigoProduto, quantidadeVendida, valorTotal);
 
-    public int getQuantidade() {
-        return quantidade;
-    }
+        // Atualiza a quantidade no estoque
+        int novaQuantidade = produto.getQuantidade() - quantidadeVendida;
+        Estoque estoque = new Estoque(codigoProduto, novaQuantidade);
+        estoqueDAO.atualizarEstoque(estoque);
 
-    public LocalDate getDataVenda() {
-        return dataVenda;
+        System.out.println("Venda realizada com sucesso!");
     }
 }

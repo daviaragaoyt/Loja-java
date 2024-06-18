@@ -17,7 +17,8 @@ public class Produto {
     private int quantidade;
     private static ProdutoDAO produtoDAO = new ProdutoDAO();
 
-    public Produto(int codigo, String nome, String categoria, String tamanho, String cor, String marca, float valor, int quantidade) {
+    public Produto(int codigo, String nome, String categoria, String tamanho, String cor, String marca, float valor,
+            int quantidade) {
         this.codigo = codigo;
         this.nome = nome;
         this.categoria = categoria;

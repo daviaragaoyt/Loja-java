@@ -10,7 +10,8 @@ import java.util.List;
 public class EstoqueDAO {
 
     public void atualizarEstoque(Estoque estoque) throws SQLException {
-        String sql = "INSERT INTO ESTOQUE (PRODUTO_ID, QUANTIDADE) VALUES (?, ?) ON DUPLICATE KEY UPDATE QUANTIDADE = ?";
+        String sql = "INSERT INTO ESTOQUE (PRODUTO_ID, QUANTIDADE) VALUES (?, ?) " +
+                     "ON DUPLICATE KEY UPDATE QUANTIDADE = ?";
         try (Connection conn = Conexao.getConexao(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, estoque.getProdutoId());
             ps.setInt(2, estoque.getQuantidade());
