@@ -13,8 +13,8 @@ public class PessoaDAO {
 
         try (PreparedStatement ps = Conexao.getConexao().prepareStatement(sql)) {
             ps.setString(1, pessoa.getNome());
-            ps.setDate(2, java.sql.Date.valueOf(pessoa.getDtNascimento())); // Correção aqui
-            ps.setString(3, pessoa.getNumTel()); // Ajustei de num_tel para numTel para seguir o padrão
+            ps.setDate(2, java.sql.Date.valueOf(pessoa.getDtNascimento())); 
+            ps.setString(3, pessoa.getNumTel()); 
             ps.setString(4, pessoa.getEmail());
 
             ps.execute();

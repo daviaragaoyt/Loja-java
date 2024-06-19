@@ -12,7 +12,7 @@ public class Loja {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         EstoqueDAO estoqueDAO = new EstoqueDAO();
-          Venda venda = new Venda();
+        Venda venda = new Venda();
 
         while (true) {
             System.out.println("\n------ Menu Principal ------");
@@ -67,17 +67,22 @@ public class Loja {
             System.out.println("Erro ao listar o estoque: " + e.getMessage());
         }
     }
+
     public static void realizarVenda(Scanner scan, Venda venda) {
         System.out.println("Código do Produto a ser vendido: ");
-        int codigo = scan.nextInt();
+        int codigoProduto = scan.nextInt();
         scan.nextLine(); // quebra de linha
 
         System.out.println("Quantidade a ser vendida: ");
-        int quantidade = scan.nextInt();
+        int quantidadeVendida = scan.nextInt();
+        scan.nextLine(); // quebra de linha
+
+        System.out.println("Código do Funcionário que está realizando a venda: ");
+        int codigoFuncionario = scan.nextInt();
         scan.nextLine(); // quebra de linha
 
         try {
-            venda.realizarVenda(codigo, quantidade);
+            venda.realizarVenda(codigoProduto, quantidadeVendida, codigoFuncionario);
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("Erro ao realizar a venda: " + e.getMessage());

@@ -35,20 +35,13 @@ public class FuncionarioDAO {
         }
     }
 
-    public Funcionario buscarFuncionario(int id) throws SQLException {
-        String sql = "SELECT * FROM FUNCIONARIO WHERE ID = ?";
+    public String buscarNomeFuncionario(int id) throws SQLException {
+        String sql = "SELECT NOME FROM FUNCIONARIO WHERE ID = ?";
         try (Connection conn = Conexao.getConexao(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    return new Funcionario(
-                        rs.getString("NOME"),
-                        rs.getDate("DTNASCIMENTO").toLocalDate(),
-                        rs.getString("NUM_TEL"),
-                        rs.getString("EMAIL"),
-                        rs.getInt("ID"),
-                        rs.getDate("DTADMISSAO").toLocalDate()
-                    );
+                    return rs.getString("NOME");
                 }
             }
         }
